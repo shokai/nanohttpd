@@ -8,23 +8,31 @@ public class HelloServer extends NanoHTTPD
 {
 	public HelloServer() throws IOException
 	{
-		super(8080, new File("."));
+		super(8080, null);
 	}
 
 	public Response serve( String uri, String method, Properties header, Properties parms, Properties files )
 	{
 		System.out.println( method + " '" + uri + "' " );
-		String msg = "<html><body><h1>Hello server</h1>\n";
-		if ( parms.getProperty("username") == null )
-			msg +=
-				"<form action='?' method='get'>\n" +
-				"  <p>Your name: <input type='text' name='username'></p>\n" +
-				"</form>\n";
-		else
-			msg += "<p>Hello, " + parms.getProperty("username") + "!</p>";
-
-		msg += "</body></html>\n";
-		return new NanoHTTPD.Response( HTTP_OK, MIME_HTML, msg );
+        if(uri.equals("/go")){
+            try{
+               Runtime.getRuntime().exec("/usr/bin/say go");
+            }catch(java.io.IOException e){
+                System.err.println(e);
+            }
+            System.out.println("go!!!!");
+            return new NanoHTTPD.Response( HTTP_OK, MIME_HTML, "go");
+        }
+        if(uri.equals("/stop")){
+            try{
+               Runtime.getRuntime().exec("/usr/bin/say stop");
+            }catch(java.io.IOException e){
+                System.err.println(e);
+            }
+            System.out.println("stop!!!!");
+            return new NanoHTTPD.Response( HTTP_OK, MIME_HTML, "stop");
+        }
+        return serveFile(uri, header, new File("./data"), true);
 	}
 
 
