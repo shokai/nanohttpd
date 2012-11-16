@@ -1,9 +1,6 @@
 import java.io.*;
 import java.util.*;
 
-/**
- * An example of subclassing NanoHTTPD to make a custom HTTP server.
- */
 public class HelloServer extends NanoHTTPD
 {
 	public HelloServer() throws IOException
